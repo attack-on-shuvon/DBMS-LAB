@@ -1,0 +1,95 @@
+create database unidb;
+-- create database if not exists unidb;
+use unidb;
+show databases;
+
+create table student(
+student_id int primary key not null,
+first_name varchar(15) not null,
+last_name varchar(15) not null,
+dob date,
+email varchar(20)
+);
+-- drop table student;
+
+create table courses(
+course_id int primary key not null,
+course_name varchar(20),
+credit int check(credit>0)
+);
+-- drop table courses;
+
+create table enrollment(
+student_id int, -- student table teke ansi student id ta;   
+course_id int, -- course table teke ansi course id ta;
+en_id int,
+grade varchar(30),
+
+primary key(en_id),
+
+foreign key(student_id) references student(student_id)
+on update cascade
+on delete cascade,
+
+foreign key(course_id) references courses(course_id)
+on update cascade
+on delete cascade  -- or likte paro on delete set null;
+);
+-- drop table enrollment;
+
+create table attendance(
+student_id int,
+course_id int,
+date DATE ,
+
+primary key (student_id,course_id,date)  -- karon ekta table e ektai primary key takte pare;
+										-- ekane  student_id + course_id + date unique hobe 3ta eksate;
+);
+-- drop table attendance;
+
+create table teacher(
+teacher_id int primary key,
+name varchar(10),
+dept varchar(50) default "CSE"
+);
+
+-- drop table teacher;
+
+insert into  student (student_id,first_name,last_name,dob,email) values
+(309, "Rahman" , "Shuvon" , '2004-09-27' , "shuvon@gmail.com" ),
+(310, "Raihan", "Ahmed", '2003-09-25', "raihan@gmail.com" ),
+(311,"Lotus","Ahmed",'2004-06-21', "lotus@gmail.com");
+
+
+insert into courses (course_id, course_name,credit) values
+(3112,"DBMS LAB",1.5),
+(3111,"DBMS THEORY",3),
+(3113,"OOP",3);
+
+insert into teacher values
+(1,"Ashfak","CSE"),
+(2,"Jalal","EEE");
+
+show tables;
+
+select*from student;
+select*from courses;
+select * from attendance;
+select * from teacher;
+
+
+
+-- select first_name from student  or select first_name,last_name from student ;
+-- select * from student where student_id = 309;
+-- select * from student where student_id>=309;
+-- select * from student where student_id  IS NULL   or IS NOT NULL;
+-- add phone varchar(11) or add varchar(11) (phone);
+-- drop column phone;
+-- modify column phone varchar(20);
+-- rename column phone to email;
+-- CHANGE column phone email varchar(20) jodi amder datatypes change korte hoy;
+-- delete from student where id = 309;
+-- add CONSTRAINT check_email CHECK(email like '%@%') mane email er modde @ takte hobe;
+-- drop CONSTRAINT check_email;
+-- drop FOREIGN KEY enrollment_ibfk_1;
+
